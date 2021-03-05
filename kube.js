@@ -130,7 +130,7 @@ module.exports.createPod = async (repo, user = '', token = '', v2rayConfigMap) =
         });
     }
     if (process.env.ALIYUN_VK) {
-        pod.spec.tolarations = [
+        pod.spec.tolerations = [
             { key: 'virtual-kubelet.io/provider' },
             { operator: 'Exists' },
         ];
