@@ -89,12 +89,7 @@ module.exports.createPod = async (repo, user = '', token = '', v2rayConfigMap) =
                     securityContext: {
                         privileged: true,
                     },
-                    volumeMounts: [
-                        {
-                            name: 'docker-sock',
-                            mountPath: '/var/run/docker.sock',
-                        }
-                    ],
+                    volumeMounts: [],
                     resources: {
                         requests: {
                             cpu: '1',
@@ -107,14 +102,7 @@ module.exports.createPod = async (repo, user = '', token = '', v2rayConfigMap) =
                     }
                 },
             ],
-            volumes: [
-                {
-                    name: 'docker-sock',
-                    hostPath: {
-                        path: '/var/run/docker.sock'
-                    },
-                },
-            ]
+            volumes: [],
         },
     };
     if (v2rayConfigMap) {
@@ -127,6 +115,18 @@ module.exports.createPod = async (repo, user = '', token = '', v2rayConfigMap) =
         pod.spec.containers[0].volumeMounts.push({
             name: 'v2ray',
             mountPath: '/etc/v2ray'
+        });
+    }
+    if (!process.env.DISABLE_DOCKER) {
+        pod.spec.volumes.push({
+            name: 'docker-sock',
+            hostPath: {
+                path: '/var/run/docker.sock'
+            },
+        });
+        pod.spec.containers[0].volumeMounts.push({
+            name: 'docker-sock',
+            mountPath: '/var/run/docker.sock',
         });
     }
     if (process.env.ALIYUN_VK) {
