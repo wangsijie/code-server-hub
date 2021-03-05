@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: login docker
-        run: echo "${{ secrets.DOCKER_TOKEN }}"" | docker login -u wangsijie --password-stdin
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u wangsijie --password-stdin
       - name: build hub
         run: docker build -t wangsijie/code-server-hub .
       - name: push
