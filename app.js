@@ -153,7 +153,7 @@ app.post('/workspaces', async (req, res) => {
         try {
             const logs = await kube.getPodLog(pod.metadata.name);
             if (/HTTP\sserver\slistening\son/.test(logs)) {
-                res.json({ url: `https://${pod.status.podIP.replace(/\./g, '-')}.code.sijie.wang` });
+                res.json({ url: `https://${pod.status.podIP.replace(/\./g, '-')}.${req.hostname}` });
             } else {
                 res.json({ logs: logs || '等待启动' });
             }
