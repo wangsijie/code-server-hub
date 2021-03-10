@@ -94,7 +94,9 @@ app.get('/delete/:podName', async (req, res) => {
 app.get('/', async (req, res) => {
     const username = checkLogin(req);
     if (!username) {
-        return res.status(401).send(`<div><a href="https://github.com/login/oauth/authorize?client_id=${process.env.GH_CLIENT_ID}&scope=repo">GitHub登陆</a></div>`);
+        return res.status(401).send(`<div>
+            <a href="https://github.com/login/oauth/authorize?client_id=${process.env.GH_CLIENT_ID}&scope=${encodeURIComponent('repo workflow write:packages')}">GitHub登陆</a>
+        </div>`);
     }
     const [ip, port] = getIpFromHost(req.hostname);
     if (ip) {
