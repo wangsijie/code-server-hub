@@ -195,12 +195,14 @@ app.get('/oauth/github', async (req, res) => {
 })
 
 app.all('*', async (req, res) => {
-    if (!checkLogin(req)) {
-        return res.redirect(process.env.HOME_URL || '/');
-    }
     const [ip, port] = getIpFromHost(req.hostname);
     if (ip) {
         updatePodActive(ip);
+        if (!port) {
+            if (!checkLogin(req)) {
+                return res.redirect(process.env.HOME_URL || '/');
+            }
+        }
         proxy(`http://${ip}:${port}`)(req, res);
     } else {
         res.status(404).send('not found');
