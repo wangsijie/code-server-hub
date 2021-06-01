@@ -87,7 +87,7 @@ module.exports.createPod = async (repo, user = '', token = '', v2rayConfigMap) =
                         ].join('\n'),
                     ],
                     securityContext: {
-                        privileged: true,
+                        allowPrivilegeEscalation: true,
                     },
                     volumeMounts: [],
                     resources: {
