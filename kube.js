@@ -129,15 +129,6 @@ module.exports.createPod = async (repo, user = '', token = '', v2rayConfigMap) =
             mountPath: '/var/run/docker.sock',
         });
     }
-    if (process.env.ALIYUN_VK) {
-        pod.spec.tolerations = [
-            { key: 'virtual-kubelet.io/provider' },
-            { operator: 'Exists' },
-        ];
-        pod.spec.nodeSelector = {
-            type: 'virtual-kubelet',
-        };
-    }
     const res = await k8sApi.createNamespacedPod(
         'default',
         pod,
